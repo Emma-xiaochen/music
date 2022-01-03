@@ -6,10 +6,10 @@
 }
 
 .album {
+  display: flex;
   position: relative;
   border-radius: 12rpx;
   overflow: hidden;
-  display: flex;
 }
 
 .album .image {
@@ -17,20 +17,20 @@
 }
 
 .info {
-  position: absolute;
-  padding: 0 10rpx;
-  box-sizing: border-box;
-  width: 100%;
-  bottom: 8rpx;
   display: flex;
   justify-content: space-between;
-  color: #fff;
+  position: absolute;
+  bottom: 8rpx;
+  width: 100%;
   font-size: 24rpx;
+  color: #fff;
+  box-sizing: border-box;
+  padding: 0 10rpx;
 }
 
 .info .count {
-  padding-left: 36rpx;
   position: relative;
+  padding-left: 36rpx;
 }
 
 .info .count::before {
@@ -45,8 +45,8 @@
 }
 
 .content {
-  margin-top: 10rpx;
   font-size: 28rpx;
+  margin-top: 10rpx;
   
   /* 显示两行 */
   text-overflow: ellipsis;

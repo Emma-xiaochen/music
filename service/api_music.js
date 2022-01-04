@@ -13,3 +13,11 @@ export function getRanking() {
     idx: 1
   })
 }
+
+export function getSongMenu(cat="全部", limit=5, offset=0) {
+  return cmRequest.get("/top/playlist", {
+    cat,
+    limit,
+    offset
+  })
+}

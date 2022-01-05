@@ -1,17 +1,15 @@
 /* components/song-menu-area/index.wxss */
 .menu-list {
-  width: 100vw;
   position: relative;
   left: -20rpx;
+  width: 100vw;
   white-space: nowrap;
 }
 
 .menu-item {
   display: inline-block;
-  width: 200rpx;
-  height: 200rpx;
+  width: 220rpx;
   vertical-align: top;
-  background-color: #f00;
   margin-left: 20rpx;
 }
 

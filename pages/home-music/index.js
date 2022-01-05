@@ -15,9 +15,10 @@ Page({
   data: {
     swiperHeight: 0,
     banners: [],
+    hotSongMenu: [],
     recommendSongs: [],
     recommendSongMenu: [],
-    hotSongMenu: []
+    rankings: { 0: {}, 2: {}, 3: {} }
   },
 
   /**
@@ -36,6 +37,9 @@ Page({
       const recommendSongs = res.tracks.slice(0, 6);
       this.setData({ recommendSongs })
     })
+    rankingStore.onState("newRanking", this.gerRankingHandler(0));
+    rankingStore.onState("originRanking", this.gerRankingHandler(2));
+    rankingStore.onState("upRanking", this.gerRankingHandler(3));
   },
 
   // 网络请求
@@ -45,8 +49,11 @@ Page({
     })
 
     getSongMenu().then(res => {
-      console.log(res);
       this.setData({ hotSongMenu: res.playlists });
+    })
+
+    getSongMenu("华语").then(res => {
+      this.setData({ recommendSongMenu: res.playlists });
     })
   },
 
@@ -69,6 +76,36 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    // 在销毁的时候取消监听，首页是可以不用取消的
+    // rankingStore.offState("newRanking", this.getNewRankingHandle);
   },
+
+  gerRankingHandler: function(idx) {
+    return (res) => {
+      if(Object.keys(res).length === 0) return;
+      const name = res.name;
+      const coverImgUrl = res.coverImgUrl;
+      const songList = res.tracks.slice(0, 3);
+      const playCount = res.playCount;
+      const rankingObj = {name, coverImgUrl, songList, playCount};
+      const newRankings = { ...this.data.rankings, [idx]: rankingObj };
+      this.setData({ 
+        rankings: newRankings
+      })
+      console.log(this.data.rankings);
+    }
+  }
+
+  // gerNewRankingHandler: function(res) {
+  //   if(Object.keys(res).length === 0) return;
+  //   const name = res.name;
+  //   const coverImgUrl = res.coverImgUrl;
+  //   const songList = res.tracks.slice(0, 3);
+  //   const rankingObj = {name, coverImgUrl, songList};
+  //   const originRankings = [...this.data.rankings];
+  //   originRankings.push(rankingObj);
+  //   this.setData({ 
+  //     rankings: originRankings
+  //   })
+  // }
 })

@@ -8,7 +8,7 @@ Component({
   properties: {
     title: {
       type: String,
-      value: "热门歌单"
+      value: "默认歌单"
     },
     songMenu: {
       type: Array,

@@ -51,7 +51,6 @@ Page({
   handleVideoItemClick: function(event) {
     // 获取id
     const id = event.currentTarget.dataset.item.id;
-    console.log(id);
     // 页面跳转
     wx.navigateTo({
       url: '/pages/detail-video/index?id=' + id,
@@ -66,7 +65,6 @@ Page({
   },
   // 下拉加载更多
   onReachBottom: async function() {
-    console.log(1);
     // if(!this.data.hasMore) return;
     // const res = await getTopMV(this.data.topMVs.length);
     // this.setData({ topMVs: this.data.topMVs.concat(res.data) })

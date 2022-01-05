@@ -8,12 +8,13 @@ export function getBanners() {
 }
 
 // 歌曲排行接口
-export function getRanking() {
+export function getRankings(idx) {
   return cmRequest.get("/top/list", {
-    idx: 1
+    idx
   })
 }
 
+// cat -> category 类别
 export function getSongMenu(cat="全部", limit=5, offset=0) {
   return cmRequest.get("/top/playlist", {
     cat,

@@ -85,7 +85,7 @@ Page({
 
   navigateToDetailSongsPage: function(rankingName) {
     wx.navigateTo({
-      url: `/pages/detail-songs/index?ranking=${rankingName}`
+      url: `/pages/detail-songs/index?ranking=${rankingName}$type=rank`
     })
   },
 

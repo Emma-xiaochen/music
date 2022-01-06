@@ -20,7 +20,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-    
     screenWidth: app.globalData.screenWidth,
     screenHeight: app.globalData.screenHeight
   },
@@ -29,9 +28,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    demo: function() {
-      const info = wx.getSystemInfoAsync();
-      screenWidth
+    // 监听歌单item的点击
+    handleMenuItemClick: function(event) {
+      const item = event.currentTarget.dataset.item;
+      console.log(item);
+      wx.navigateTo({
+        url: `/pages/detail-songs/index?id=${item.id}&type=menu`
+      })
     }
   }
 })

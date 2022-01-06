@@ -22,3 +22,10 @@ export function getSongMenu(cat="全部", limit=5, offset=0) {
     offset
   })
 }
+
+// 
+export function getSongMenuDetail(id) {
+  return cmRequest.get("/playlist/detail/dynamic", {
+    id
+  })
+}

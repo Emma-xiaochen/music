@@ -29,6 +29,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    // 将更多点击事件发射出去
+    handleRightClick: function() {
+      this.triggerEvent("click")
+    }
   }
 })

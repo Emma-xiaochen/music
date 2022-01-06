@@ -37,5 +37,6 @@ const rankingStore = new cmEventStore({
 });
 
 export {
-  rankingStore
+  rankingStore,
+  rankingMap
 }

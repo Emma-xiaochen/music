@@ -1,5 +1,5 @@
 // pages/home-music/index.js
-import { rankingStore } from  '../../store/ranking-store'
+import { rankingStore, rankingMap } from  '../../store/ranking-store'
 
 import { getBanners, getSongMenu } from '../../service/api_music'
 import queryRect from '../../util/query-rect'
@@ -72,6 +72,23 @@ Page({
     });
   },
 
+  // 监听推荐歌曲中的更多的点击
+  handleMoreClick: function() {
+    this.navigateToDetailSongsPage("hotRanking")
+  },
+
+  handleRankingItemClick: function(event) {
+    const idx = event.currentTarget.dataset.idx;
+    const rankingName = rankingMap[idx];
+    this.navigateToDetailSongsPage(rankingName);
+  },
+
+  navigateToDetailSongsPage: function(rankingName) {
+    wx.navigateTo({
+      url: `/pages/detail-songs/index?ranking=${rankingName}`
+    })
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */
@@ -92,7 +109,6 @@ Page({
       this.setData({ 
         rankings: newRankings
       })
-      console.log(this.data.rankings);
     }
   }
 

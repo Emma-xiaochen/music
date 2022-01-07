@@ -35,6 +35,12 @@
           "pathName": "pages/detail-songs/index",
           "query": "id=6639260460&type=menu",
           "scene": null
+        },
+        {
+          "name": "detail-search",
+          "pathName": "pages/detail-search/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

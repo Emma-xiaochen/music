@@ -21,7 +21,6 @@ Page({
     this.setData({ type });
     if(type === "menu") {
       const id = options.id;
-      console.log(id);
       getSongMenuDetail(id).then(res => {
         this.setData({ songInfo: res.playlist })
       })

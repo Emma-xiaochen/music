@@ -31,7 +31,6 @@ Component({
     // 监听歌单item的点击
     handleMenuItemClick: function(event) {
       const item = event.currentTarget.dataset.item;
-      console.log(item);
       wx.navigateTo({
         url: `/pages/detail-songs/index?id=${item.id}&type=menu`
       })

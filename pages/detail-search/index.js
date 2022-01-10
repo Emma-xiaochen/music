@@ -43,6 +43,7 @@ Page({
     // 3. 判断关键字为空字符的处理逻辑
     if(!searchValue.length){
       this.setData({ suggestSongs: [] });
+      this.setData({ resultSongs: [] });
       return;
     };
     // 根据关键字进行搜索

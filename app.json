@@ -5,7 +5,8 @@
     "pages/detail-video/index",
     "pages/detail-search/index",
     "components/area-header/index",
-    "pages/detail-songs/index"
+    "pages/detail-songs/index",
+    "pages/music-play/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

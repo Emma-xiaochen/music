@@ -25,6 +25,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    handleSongItemClick: function() {
+      const id = this.properties.item.id;
+      wx.navigateTo({
+        url: `/pages/music-play/index?id=${id}`,
+      })
+    }
   }
 })

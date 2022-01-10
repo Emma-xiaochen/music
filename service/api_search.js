@@ -12,3 +12,10 @@ export function getSearchSuggest(keywords) {
     type: "mobile"
   })
 }
+
+// 搜索结果接口
+export function getSearchResult(keywords) {
+  return cmRequest.get("/search", {
+    keywords
+  })
+}

@@ -1,2 +1,6 @@
 <!--pages/music-play/index.wxml-->
-<text>pages/music-play/index.wxml</text>
+<!-- 1. 背景 -->
+<image class="bg-image" mode="aspectFill" src="{{currentSong.al.picUrl}}"></image>
+<view class="bg-cover"></view>
+
+<view>你好啊，李银河</view>

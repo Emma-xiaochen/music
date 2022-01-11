@@ -42,15 +42,22 @@ Page({
     this.setData({ searchValue });
     // 3. 判断关键字为空字符的处理逻辑
     if(!searchValue.length){
-      this.setData({ suggestSongs: [] });
-      this.setData({ resultSongs: [] });
+      this.setData({ suggestSongs: [], resultSongs: []  });
+      // 取消请求
+      debounceSearchSuggest.cancel();
       return;
     };
-    // 根据关键字进行搜索
+
+    // 4. 根据关键字进行搜索
     debounceSearchSuggest(searchValue).then(res => {
+      // if(!this.data.searchValue.length) {
+      //   console.log("searchValue没有值");
+      //   return;
+      // }
       // 1. 获取建议的关键字歌曲
       const suggestSongs = res.result.allMatch;
       this.setData({ suggestSongs });
+      if(!suggestSongs) return;
       
       // 2. 转成nodes节点
       const suggestKeywords = suggestSongs.map(item => item.keyword)

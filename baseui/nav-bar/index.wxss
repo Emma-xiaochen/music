@@ -1,7 +1,6 @@
 /* baseui/nav-bar/index.wxss */
 .nav-bar {
   display: flex;
-  height: 88rpx;
   text-align: center;
 }
 

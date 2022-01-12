@@ -17,3 +17,18 @@ page {
   background-color: rgba(0, 0, 0, .5);
   backdrop-filter: blur(20px);
 }
+
+/* 自定义导航 */
+.tab {
+  display: flex;
+  font-size: 28rpx;
+  color: #999;
+}
+
+.tab .divider {
+  margin: 0 10rpx;
+}
+
+.tab .active {
+  color: #fff;
+}

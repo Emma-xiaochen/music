@@ -3,4 +3,10 @@
 <image class="bg-image" mode="aspectFill" src="{{currentSong.al.picUrl}}"></image>
 <view class="bg-cover"></view>
 
-<view>你好啊，李银河</view>
+<!-- 2. 导航 -->
+<nav-bar>
+  <view slot="title" class="tab">
+    <view>歌曲</view>
+    <view>歌词</view>
+  </view>
+</nav-bar>

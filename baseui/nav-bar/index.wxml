@@ -12,6 +12,6 @@
       <view class="center-slot"><slot name="title"></slot></view>
       <view class="center-title">{{title}}</view>
     </view>
-    <view class="right">右边</view>
+    <view class="right"></view>
   </view>
 </view>

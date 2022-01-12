@@ -1,4 +1,6 @@
 // baseui/nav-bar/index.js
+const globalData = getApp().globalData;
+
 Component({
   options: {
     multipleSlots: true
@@ -17,7 +19,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    statusBarHeight: getApp().globalData.statusBarHeight
+    statusBarHeight: globalData.statusBarHeight,
+    navBarHeight: globalData.navBarHeight
   },
 
   lifetimes: {

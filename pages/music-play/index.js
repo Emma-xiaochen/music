@@ -10,10 +10,13 @@ Page({
   data: {
     id: 0,
     currentSong: {},
-    duration: 0,
+    durationTime: 0, // 总时长
+    currentTime: 0, // 当前播放的时间
     isMusicLyric: true,
     currentPage: 0,
-    contentHeight: 0
+    contentHeight: 0,
+    sliderValue: 0, // 进度条进度
+    isSliderChanging: false // 进度条改变的状态
   },
 
   /**
@@ -42,13 +45,23 @@ Page({
     audioContext.autoplay = true;
     audioContext.onCanplay(() => {
       audioContext.play();
-    })
+    });
+
+    // 监听当前时间
+    audioContext.onTimeUpdate(() => {
+      const currentTime = audioContext.currentTime * 1000;
+      
+      if(!this.data.isSliderChanging) {
+        const sliderValue = currentTime / this.data.durationTime * 100;
+        this.setData({ sliderValue, currentTime });
+      }
+    });
   },
 
   // 网络请求
   getPageData: function(id) {
     getSongDetail(id).then(res => {
-    this.setData({ currentSong: res.songs[0], duration: res.songs[0].dt })
+    this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
     })
   },
 
@@ -57,6 +70,27 @@ Page({
     console.log(event);
     const current = event.detail.current;
     this.setData({ currentPage: current });
+  },
+
+  handleSliderChange: function(event) {
+    // 1. 获取slider变化的值
+    const value = event.detail.value;
+
+    // 2. 计算需要播放的createTime
+    const createTime = this.data.durationTime * value / 100;
+
+    // 3. 设置context播放currenTime位置的音乐
+    audioContext.pause();
+    audioContext.seek(createTime / 1000);
+
+    // 4. 记录最新的sliderValue
+    this.setData({ sliderValue: value, isSliderChanging: false });
+  },
+
+  handleSliderChanging: function(event) {
+    const value = event.detail.value;
+    const currentTime = this.data.durationTime * value / 100;
+    this.setData({ isSliderChanging: true, currentTime });
   },
 
   /**

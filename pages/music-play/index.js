@@ -10,6 +10,7 @@ Page({
   data: {
     id: 0,
     currentSong: {},
+    isMusicLyric: true,
     currentPage: 0,
     contentHeight: 0
   },
@@ -30,8 +31,9 @@ Page({
     const screenHeight = getApp().globalData.screenHeight;
     const statusBarHeight = getApp().globalData.statusBarHeight;
     const navBarHeight = globalData.navBarHeight;
+    const deviceRadio = globalData.deviceRadio;
     const contentHeight = screenHeight - statusBarHeight - navBarHeight;
-    this.setData({ contentHeight });
+    this.setData({ contentHeight, isMusicLyric: deviceRadio >= 2 });
 
     // 4. 创建播放器
     const audioContext = wx.createInnerAudioContext();
@@ -42,7 +44,6 @@ Page({
   // 网络请求
   getPageData: function(id) {
     getSongDetail(id).then(res => {
-      console.log(res);
       this.setData({ currentSong: res.songs[0] })
     })
   },

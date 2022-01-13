@@ -25,9 +25,7 @@ Component({
 
   lifetimes: {
     ready: function() {
-      console.log(1);
       const info = wx.getSystemInfoSync();
-      console.log(info);
     }
   },
 

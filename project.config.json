@@ -42,7 +42,7 @@
     "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.18.1",
+  "libVersion": "2.18.0",
   "appid": "wxe8f666724c866e5c",
   "projectname": "CMusic",
   "debugOptions": {

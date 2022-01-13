@@ -18,7 +18,7 @@
         bindchange="handleSwiperChange">
   <swiper-item class="music">
     <view class="album">
-      <image class="image" mode="aspectFill" src="https://p2.music.126.net/aG5zqxkBRfLiV7A8W0iwgA==/109951166702962263.jpg"></image>
+      <image class="image" mode="widthFix" src="https://p2.music.126.net/aG5zqxkBRfLiV7A8W0iwgA==/109951166702962263.jpg"></image>
     </view>
     <view class="info">
       <view class="title">孤勇者</view>
@@ -27,7 +27,7 @@
         <view class="alias">专辑:《英雄联盟》</view>
       </view>
     </view>
-    <view class="lyric">我是歌词，哈哈哈</view>
+    <view class="lyric" wx:if="{{isMusicLyric}}">我是歌词，哈哈哈</view>
     <view class="progress">
       <slider class="slider" block-size="{{12}}"></slider>
       <view class="time">

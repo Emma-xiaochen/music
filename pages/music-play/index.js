@@ -1,5 +1,6 @@
 // pages/music-play/index.js
-import { getSongDetail } from '../../service/api_player'
+import { getSongDetail, getSongLyric } from '../../service/api_player'
+import { parseLyric } from '../../util/parse-lyric';
 import { audioContext } from '../../store/index'
 
 Page({
@@ -43,6 +44,26 @@ Page({
     audioContext.stop();
     audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
     audioContext.autoplay = true;
+
+    // 5. audioContext的事件监听
+    this.setupAudioContextListener();
+  },
+
+  // -------------------------- [ 网络请求 ] --------------------------
+  getPageData: function(id) {
+    getSongDetail(id).then(res => {
+    this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
+    })
+
+    getSongLyric(id).then(res => {
+      const lyricString = res.lrc.lyric;
+      const lyrics = parseLyric(lyricString);
+      console.log(lyrics);
+    })
+  },
+
+  // -------------------------- [ audio事件监听 ] --------------------------
+  setupAudioContextListener: function() {
     audioContext.onCanplay(() => {
       audioContext.play();
     });
@@ -58,18 +79,17 @@ Page({
     });
   },
 
-  // 网络请求
-  getPageData: function(id) {
-    getSongDetail(id).then(res => {
-    this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
-    })
-  },
-
-  // 事件处理
+  // -------------------------- [ 事件处理 ] --------------------------
   handleSwiperChange: function(event) {
     console.log(event);
     const current = event.detail.current;
     this.setData({ currentPage: current });
+  },
+  
+  handleSliderChanging: function(event) {
+    const value = event.detail.value;
+    const currentTime = this.data.durationTime * value / 100; 
+    this.setData({ isSliderChanging: true, currentTime, sliderValue: value });
   },
 
   handleSliderChange: function(event) {
@@ -83,14 +103,8 @@ Page({
     audioContext.pause();
     audioContext.seek(createTime / 1000);
 
-    // 4. 记录最新的sliderValue
+    // 4. 记录最新的sliderValue，并且需要将isSliderChanging设置回false
     this.setData({ sliderValue: value, isSliderChanging: false });
-  },
-
-  handleSliderChanging: function(event) {
-    const value = event.detail.value;
-    const currentTime = this.data.durationTime * value / 100;
-    this.setData({ isSliderChanging: true, currentTime });
   },
 
   /**

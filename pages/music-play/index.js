@@ -9,10 +9,16 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 关于歌曲的
     id: 0,
     currentSong: {},
     durationTime: 0, // 总时长
     currentTime: 0, // 当前播放的时间
+    lyricInfos: [], // 歌词数据
+    currentLyricInfo: 0, // 当前歌词索引
+    currentLyricText: "", // 当前歌词文本
+
+    // 关于页面的
     isMusicLyric: true,
     currentPage: 0,
     contentHeight: 0,
@@ -58,7 +64,7 @@ Page({
     getSongLyric(id).then(res => {
       const lyricString = res.lrc.lyric;
       const lyrics = parseLyric(lyricString);
-      console.log(lyrics);
+      this.setData({ lyricInfos: lyrics });
     })
   },
 
@@ -68,20 +74,37 @@ Page({
       audioContext.play();
     });
 
-    // 监听当前时间
+    // 监听当前时间改变
     audioContext.onTimeUpdate(() => {
+      // 1. 获取当前时间
       const currentTime = audioContext.currentTime * 1000;
-      
+
+      // 2. 根据当前时间修改currentTime/sliderValue
       if(!this.data.isSliderChanging) {
         const sliderValue = currentTime / this.data.durationTime * 100;
         this.setData({ sliderValue, currentTime });
+      }
+
+      //  3. 根据当前时间去查找播放的歌词
+      let i = 0;
+      for(; i < this.data.lyricInfos.length; i++) {
+        const lyricInfo = this.data.lyricInfos[i];
+        if(currentTime < lyricInfo.time) {
+          break;
+        }
+      }
+
+      // 设置当前歌词的索引和内容
+      const currentIndex = i - 1;
+      if(this.data.currentLyricInfo !== currentIndex) {
+        const currentLyricInfo = this.data.lyricInfos[currentIndex];
+        this.setData({ currentLyricText: currentLyricInfo.text, currentLyricInfo: currentIndex });
       }
     });
   },
 
   // -------------------------- [ 事件处理 ] --------------------------
   handleSwiperChange: function(event) {
-    console.log(event);
     const current = event.detail.current;
     this.setData({ currentPage: current });
   },

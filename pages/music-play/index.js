@@ -52,9 +52,9 @@ Page({
     this.setData({ contentHeight, isMusicLyric: deviceRadio >= 2 });
 
     // 4. 使用audioContext播放歌曲
-    audioContext.stop();
-    audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
-    audioContext.autoplay = true;
+    // audioContext.stop();
+    // audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+    // audioContext.autoplay = true;
 
     // 5. audioContext的事件监听
     this.setupAudioContextListener();
@@ -140,6 +140,11 @@ Page({
     this.setData({ sliderValue: value, isSliderChanging: false });
   },
 
+  handleBackClick: function() {
+    wx.navigateBack();
+  },
+
+  // -------------------------- [ 数据监听 ] --------------------------
   setupPlayerStoreListener: function() {
     playerStore.onStates(["currentSong", "durationTime", "lyricInfos"], ({
       currentSong,

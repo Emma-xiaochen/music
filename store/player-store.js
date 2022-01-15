@@ -15,6 +15,7 @@ const playerStore = new cmEventStore({
     playMusicWithSongIdAction(ctx, { id }) {
       ctx.id = id;
 
+      // 1. 根据id请求数据
       // 请求歌曲详情
       getSongDetail(id).then(res => {
         ctx.currentSong = res.songs[0];
@@ -26,6 +27,11 @@ const playerStore = new cmEventStore({
         const lyrics = parseLyric(lyricString);
         ctx.lyricInfos = lyrics;
       })
+
+      // 2. 播放对应id的歌曲
+      audioContext.stop();
+      audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+      audioContext.autoplay = true;
     }
   }
 });

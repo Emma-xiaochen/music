@@ -27,8 +27,7 @@ Component({
       const id = this.properties.item.id;
       // 页面调整
       wx.navigateTo({
-        // url: `/pages/music-play/index?id=${id}`,
-        url: '/pages/music-play/index?id=' + id
+        url: `/pages/music-play/index?id=${id}`
       });
       // 对歌曲的数据请求和其他操作
       playerStore.dispatch("playMusicWithSongIdAction", { id });

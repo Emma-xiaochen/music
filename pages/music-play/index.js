@@ -23,6 +23,9 @@ Page({
     currentLyricIndex: 0, // 当前歌词索引
     currentLyricText: "", // 当前歌词文本
 
+    isPlaying: false,
+    playingName: "pause",
+
     playModeIndex: 0, // 播放模式
     playModeName: "order", // 播放模式名字
 
@@ -105,6 +108,10 @@ Page({
     playerStore.setState("playModeIndex", playModeIndex);
   },
 
+  handlePlayBtnClick: function() {
+    playerStore.dispatch("changeMusicPlayStatusAction");
+  },
+
   // -------------------------- [ 数据监听 ] --------------------------
   setupPlayerStoreListener: function() {
     // 1. 监听currentSong/durationTime/lyricInfos
@@ -139,8 +146,20 @@ Page({
     })
 
     // 3. 监听播放模式相关的数据
-    playerStore.onState("playModeIndex", (playModeIndex) => {
-      this.setData({ playModeIndex, playModeName: playModeNames[playModeIndex] });
+    playerStore.onStates(["playModeIndex", "isPlaying"], ({playModeIndex, isPlaying}) => {
+      if(playModeIndex !== undefined) {
+        this.setData({ 
+          playModeIndex, 
+          playModeName: playModeNames[playModeIndex] 
+        });
+      }
+
+      if(isPlaying !== undefined) {
+        this.setData({ 
+          isPlaying,
+          playingName: isPlaying ? "pause" : "resume"
+        });
+      }
     })
   },
 

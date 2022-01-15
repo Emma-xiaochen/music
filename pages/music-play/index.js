@@ -1,7 +1,7 @@
 // pages/music-play/index.js
-import { getSongDetail, getSongLyric } from '../../service/api_player'
-import { parseLyric } from '../../util/parse-lyric';
-import { audioContext } from '../../store/index'
+// import { getSongDetail, getSongLyric } from '../../service/api_player'
+// import { parseLyric } from '../../util/parse-lyric';
+import { audioContext, playerStore } from '../../store/index'
 
 Page({
 
@@ -11,10 +11,13 @@ Page({
   data: {
     // 关于歌曲的
     id: 0,
-    currentSong: {},
-    durationTime: 0, // 总时长
+
+    // 网络请求的
     currentTime: 0, // 当前播放的时间
+    durationTime: 0, // 总时长
     lyricInfos: [], // 歌词数据
+
+    currentSong: {},
     currentLyricIndex: 0, // 当前歌词索引
     currentLyricText: "", // 当前歌词文本
 
@@ -36,7 +39,8 @@ Page({
     this.setData({ id });
 
     // 2. 根据id获取歌曲信息
-    this.getPageData(id);
+    // this.getPageData(id);
+    this.setupPlayerStoreListener();
 
     // 3. 动态计算内容高度
     const globalData = getApp().globalData;
@@ -57,17 +61,17 @@ Page({
   },
 
   // -------------------------- [ 网络请求 ] --------------------------
-  getPageData: function(id) {
-    getSongDetail(id).then(res => {
-    this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
-    })
+  // getPageData: function(id) {
+  //   getSongDetail(id).then(res => {
+  //   this.setData({ currentSong: res.songs[0], durationTime: res.songs[0].dt })
+  //   })
 
-    getSongLyric(id).then(res => {
-      const lyricString = res.lrc.lyric;
-      const lyrics = parseLyric(lyricString);
-      this.setData({ lyricInfos: lyrics });
-    })
-  },
+  //   getSongLyric(id).then(res => {
+  //     const lyricString = res.lrc.lyric;
+  //     const lyrics = parseLyric(lyricString);
+  //     this.setData({ lyricInfos: lyrics });
+  //   })
+  // },
 
   // -------------------------- [ audio事件监听 ] --------------------------
   setupAudioContextListener: function() {
@@ -87,6 +91,7 @@ Page({
       }
 
       //  3. 根据当前时间去查找播放的歌词
+      if(!this.data.lyricInfos.length) return;
       let i = 0;
       for(; i < this.data.lyricInfos.length; i++) {
         const lyricInfo = this.data.lyricInfos[i];
@@ -135,10 +140,23 @@ Page({
     this.setData({ sliderValue: value, isSliderChanging: false });
   },
 
+  setupPlayerStoreListener: function() {
+    playerStore.onStates(["currentSong", "durationTime", "lyricInfos"], ({
+      currentSong,
+      durationTime,
+      lyricInfos
+    }) => {
+      if(currentSong) this.setData({ currentSong });
+      if(durationTime) this.setData({ durationTime });
+      if(lyricInfos) this.setData({ lyricInfos });
+    })
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
 
   },
+
 })

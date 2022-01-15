@@ -15,11 +15,16 @@ const playerStore = new cmEventStore({
     currentLyricIndex: 0, // 当前歌词索引
     currentLyricText: "", // 当前歌词文本
 
+    isPlaying: false,  // 播放状态
+
     playModeIndex: 0, // 0:循环播放 1:单曲循环 2:随机播放
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {
       ctx.id = id;
+
+      // 0. 修改播放状态
+      const isPlaying = true;
 
       // 1. 根据id请求数据
       // 请求歌曲详情
@@ -42,6 +47,7 @@ const playerStore = new cmEventStore({
       // 3. 监听audioContext一些事件
       this.dispatch("setupAudioContextListenerAction");
     },
+
     setupAudioContextListenerAction(ctx) {
       // 1. 监听歌曲可以播放
       audioContext.onCanplay(() => {
@@ -75,6 +81,11 @@ const playerStore = new cmEventStore({
           ctx.currentLyricText = currentLyricInfo.text;
         }
       });
+    },
+
+    changeMusicPlayStatusAction(ctx) {
+      ctx.isPlaying = !ctx.isPlaying;
+      ctx.isPlaying ? audioContext.play() : audioContext.pause();
     }
   }
 });

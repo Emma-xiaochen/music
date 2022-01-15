@@ -14,6 +14,8 @@ const playerStore = new cmEventStore({
     currentTime: 0, // 当前播放的时间
     currentLyricIndex: 0, // 当前歌词索引
     currentLyricText: "", // 当前歌词文本
+
+    playModeIndex: 0, // 0:循环播放 1:单曲循环 2:随机播放
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {

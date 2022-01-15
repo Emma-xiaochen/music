@@ -3,6 +3,8 @@
 // import { parseLyric } from '../../util/parse-lyric';
 import { audioContext, playerStore } from '../../store/index'
 
+const playModeNames = ["order", "repeat", "random"];
+
 Page({
 
   /**
@@ -20,6 +22,9 @@ Page({
     currentTime: 0, // 当前播放的时间
     currentLyricIndex: 0, // 当前歌词索引
     currentLyricText: "", // 当前歌词文本
+
+    playModeIndex: 0, // 播放模式
+    playModeName: "order", // 播放模式名字
 
     // 关于页面的
     isMusicLyric: true,
@@ -91,6 +96,15 @@ Page({
     wx.navigateBack();
   },
 
+  handleModeBtnClick: function() {
+    // 计算最新的playModeIndex
+    let playModeIndex = this.data.playModeIndex + 1;
+    if(playModeIndex === 3) playModeIndex = 0;
+    
+    // 设置playStore中的playModeIndex
+    playerStore.setState("playModeIndex", playModeIndex);
+  },
+
   // -------------------------- [ 数据监听 ] --------------------------
   setupPlayerStoreListener: function() {
     // 1. 监听currentSong/durationTime/lyricInfos
@@ -122,6 +136,11 @@ Page({
       if(currentLyricText) {
         this.setData({ currentLyricText });
       }
+    })
+
+    // 3. 监听播放模式相关的数据
+    playerStore.onState("playModeIndex", (playModeIndex) => {
+      this.setData({ playModeIndex, playModeName: playModeNames[playModeIndex] });
     })
   },
 

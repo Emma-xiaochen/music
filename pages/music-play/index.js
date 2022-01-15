@@ -15,7 +15,7 @@ Page({
     durationTime: 0, // 总时长
     currentTime: 0, // 当前播放的时间
     lyricInfos: [], // 歌词数据
-    currentLyricInfo: 0, // 当前歌词索引
+    currentLyricIndex: 0, // 当前歌词索引
     currentLyricText: "", // 当前歌词文本
 
     // 关于页面的
@@ -23,7 +23,8 @@ Page({
     currentPage: 0,
     contentHeight: 0,
     sliderValue: 0, // 进度条进度
-    isSliderChanging: false // 进度条改变的状态
+    isSliderChanging: false, // 进度条改变的状态
+    lyricScrollTop: 0
   },
 
   /**
@@ -39,8 +40,8 @@ Page({
 
     // 3. 动态计算内容高度
     const globalData = getApp().globalData;
-    const screenHeight = getApp().globalData.screenHeight;
-    const statusBarHeight = getApp().globalData.statusBarHeight;
+    const screenHeight = globalData.screenHeight;
+    const statusBarHeight = globalData.statusBarHeight;
     const navBarHeight = globalData.navBarHeight;
     const deviceRadio = globalData.deviceRadio;
     const contentHeight = screenHeight - statusBarHeight - navBarHeight;
@@ -98,7 +99,11 @@ Page({
       const currentIndex = i - 1;
       if(this.data.currentLyricInfo !== currentIndex) {
         const currentLyricInfo = this.data.lyricInfos[currentIndex];
-        this.setData({ currentLyricText: currentLyricInfo.text, currentLyricInfo: currentIndex });
+        this.setData({ 
+          currentLyricText: currentLyricInfo.text, 
+          currentLyricIndex: currentIndex,
+          lyricScrollTop: currentIndex * 35
+        });
       }
     });
   },

@@ -21,10 +21,21 @@ const playerStore = new cmEventStore({
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {
+      if(ctx.id === id) {
+        this.dispatch("changeMusicPlayStatusAction", true);
+        return;
+      }
       ctx.id = id;
 
       // 0. 修改播放状态
-      const isPlaying = true;
+      ctx.isPlaying = true;
+      ctx.currentSong = {};
+      ctx.durationTime = 0;
+      ctx.lyricInfos = [];
+      ctx.currentTime = 0;
+      ctx.currentLyricIndex = 0;
+      ctx.currentLyricText = "";
+
 
       // 1. 根据id请求数据
       // 请求歌曲详情
@@ -83,8 +94,8 @@ const playerStore = new cmEventStore({
       });
     },
 
-    changeMusicPlayStatusAction(ctx) {
-      ctx.isPlaying = !ctx.isPlaying;
+    changeMusicPlayStatusAction(ctx, isPlaying = true) {
+      ctx.isPlaying = isPlaying;
       ctx.isPlaying ? audioContext.play() : audioContext.pause();
     }
   }

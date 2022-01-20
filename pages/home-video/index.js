@@ -28,9 +28,7 @@ Page({
 
     // 展示加载动画
     wx.showNavigationBarLoading();
-    if(offset === 0) {
-      wx.stopPullDownRefresh()
-    }
+    
     // 真正请求数据
     const res = await getTopMV(offset);
     let newData = this.data.topMVs;
@@ -53,9 +51,10 @@ Page({
     const id = event.currentTarget.dataset.item.id;
     // 页面跳转
     wx.navigateTo({
-      url: '/pages/detail-video/index?id=' + id,
+      url: `/pages/detail-video/index?id=${id}`
     })
   },
+
   // 其他的生命周期回调函数
   // 下拉刷新
   onPullDownRefresh: async function() {
@@ -63,6 +62,7 @@ Page({
     // this.setData({ topMVs: res.data })
     this.getTopMVData(0)
   },
+  
   // 下拉加载更多
   onReachBottom: async function() {
     // if(!this.data.hasMore) return;

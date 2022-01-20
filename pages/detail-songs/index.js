@@ -19,6 +19,7 @@ Page({
   onLoad: function (options) {
     const type = options.type;
     this.setData({ type });
+    
     if(type === "menu") {
       const id = options.id;
       getSongMenuDetail(id).then(res => {

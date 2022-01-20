@@ -20,8 +20,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    screenWidth: app.globalData.screenWidth,
-    screenHeight: app.globalData.screenHeight
+    screenWidth: app.globalData.screenWidth
   },
 
   /**

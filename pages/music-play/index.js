@@ -6,7 +6,6 @@ import { audioContext, playerStore } from '../../store/index'
 const playModeNames = ["order", "repeat", "random"];
 
 Page({
-
   /**
    * 页面的初始数据
    */

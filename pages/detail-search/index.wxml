@@ -15,7 +15,11 @@ class="search"
   <area-header title="热门搜索" showRight="{{false}}"></area-header>
   <view class="keywords">
     <block wx:for="{{hotKeywords}}" wx:key="first">
-      <view class="tag" bindtap="handleKeywordItemClick" data-keyword="{{item.first}}">{{item.first}}</view>
+      <view class="tag" 
+            bindtap="handleKeywordItemClick" 
+            data-keyword="{{item.first}}">
+        {{item.first}}
+      </view>
     </block>
   </view>
 </view>

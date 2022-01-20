@@ -45,6 +45,8 @@ Page({
     const id = options.id;
     this.setData({ id });
 
+    // playerStore.dispatch("playMusicWithSongIdAction", { id });
+
     // 2. 根据id获取歌曲信息
     // this.getPageData(id);
     this.setupPlayerStoreListener();
@@ -111,14 +113,14 @@ Page({
     playerStore.dispatch("changeMusicPlayStatusAction", !this.data.isPlaying);
   },
 
-  // 监听上一首按钮
+  // 监听上一首/下一首按钮
   handlePrevBtnClick: function() {
-
+    playerStore.dispatch("changeNewMusicAction", false);
   },
 
   // 监听下一首按钮
   handleNextBtnClick: function() {
-
+    playerStore.dispatch("changeNewMusicAction");
   },
 
   // -------------------------- [ 数据监听 ] --------------------------

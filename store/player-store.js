@@ -18,6 +18,8 @@ const playerStore = new cmEventStore({
     isPlaying: false,  // 播放状态
 
     playModeIndex: 0, // 0:循环播放 1:单曲循环 2:随机播放
+    playListSongs: [],
+    playListIndex: 0
   },
   actions: {
     playMusicWithSongIdAction(ctx, { id }) {

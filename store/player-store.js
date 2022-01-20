@@ -6,6 +6,8 @@ const audioContext = wx.createInnerAudioContext();
 
 const playerStore = new cmEventStore({
   state: {
+    isFirstPlay: true, // 是否是第一次播放
+
     id: 0, // 当前歌曲的id
     currentSong: {}, // 当前歌曲
     durationTime: 0, // 歌曲总时长
@@ -22,8 +24,9 @@ const playerStore = new cmEventStore({
     playListIndex: 0
   },
   actions: {
-    playMusicWithSongIdAction(ctx, { id }) {
-      if(ctx.id === id) {
+    // 1. 监听歌曲可以播放
+    playMusicWithSongIdAction(ctx, { id, isRefresh = false }) {
+      if(ctx.id == id && !isRefresh) {
         this.dispatch("changeMusicPlayStatusAction", true);
         return;
       }
@@ -58,9 +61,13 @@ const playerStore = new cmEventStore({
       audioContext.autoplay = true;
 
       // 3. 监听audioContext一些事件
-      this.dispatch("setupAudioContextListenerAction");
+      if(ctx.isFirstPlay) {
+        this.dispatch("setupAudioContextListenerAction");
+        ctx.isFirstPlay = false;
+      }
     },
 
+    // 2. 监听时间改变
     setupAudioContextListenerAction(ctx) {
       // 1. 监听歌曲可以播放
       audioContext.onCanplay(() => {
@@ -74,7 +81,6 @@ const playerStore = new cmEventStore({
   
         // 2. 根据当前时间修改currentTime
         ctx.currentTime = currentTime;
-        
   
         //  3. 根据当前时间去查找播放的歌词
         if(!ctx.lyricInfos.length) return;
@@ -94,11 +100,47 @@ const playerStore = new cmEventStore({
           ctx.currentLyricText = currentLyricInfo.text;
         }
       });
-    },
+
+      // 3. 监听歌曲播放完成
+      audioContext.onEnded(() => {
+        this.dispatch("changeNewMusicAction");
+      })
+    },    
 
     changeMusicPlayStatusAction(ctx, isPlaying = true) {
       ctx.isPlaying = isPlaying;
       ctx.isPlaying ? audioContext.play() : audioContext.pause();
+    },
+
+    changeNewMusicAction(ctx, isNext = true) {
+      // 1. 获取当前索引
+      let index = ctx.playListIndex;
+
+      // 2. 根据不同的播放模式，获取下一首歌索引
+      switch(ctx.playModeIndex) {
+        case 0: // 顺序播放
+          index = isNext? index + 1 : index -  1;
+          if(index === -1) index = ctx.playListSongs.length - 1;
+          if(index === ctx.playListSongs.length) index = 0;
+          break;
+        case 1: // 单曲循环
+          break;
+        case 2: // 随机播放
+          index = Math.floor(Math.random() * ctx.playListSongs.length);
+          break;
+      }
+      
+      // 3. 获取歌曲
+      let currentSong = ctx.playListSongs[index];
+      if(!currentSong) {
+        currentSong = ctx.currentSong;
+      } else {
+        // 记录最新的索引
+        ctx.playListIndex = index;
+      }
+
+      // 4. 播放新的歌曲
+      this.dispatch("playMusicWithSongIdAction", { id: currentSong.id, isRefresh: true });
     }
   }
 });

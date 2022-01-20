@@ -1,6 +1,6 @@
 // pages/home-music/index.js
-import { rankingStore, rankingMap } from  '../../store/ranking-store'
-
+import { rankingStore, rankingMap, playerStore } from  '../../store/index'
+import {} from '../../store/index'
 import { getBanners, getSongMenu } from '../../service/api_music'
 import queryRect from '../../util/query-rect'
 import throttle from '../../util/throttle'
@@ -64,7 +64,7 @@ Page({
     })
   },
 
-  handleSwiperImageLoading: function() {
+  handleSwiperImageLoaded: function() {
     // 获取图片的高度(如何去获取某一个组件的高度)
     throttleQueryRect(".swiper-image").then(res => {
       const rect = res[0];
@@ -89,6 +89,14 @@ Page({
     })
   },
 
+  // 监听首页推荐歌曲的索引点击
+  handleSongItemClick: function(event) {
+    const index = event.currentTarget.dataset.index;
+    console.log(index, this.data.recommendSongs);
+    playerStore.setState("playListSongs", this.data.recommendSongs);
+    playerStore.setState("playListIndex", index);
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */
@@ -102,9 +110,9 @@ Page({
       if(Object.keys(res).length === 0) return;
       const name = res.name;
       const coverImgUrl = res.coverImgUrl;
-      const songList = res.tracks.slice(0, 3);
       const playCount = res.playCount;
-      const rankingObj = {name, coverImgUrl, songList, playCount};
+      const songList = res.tracks.slice(0, 3);
+      const rankingObj = {name, coverImgUrl, playCount, songList};
       const newRankings = { ...this.data.rankings, [idx]: rankingObj };
       this.setData({ 
         rankings: newRankings

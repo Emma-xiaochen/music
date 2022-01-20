@@ -12,9 +12,7 @@ Page({
   data: {
     hotKeywords: [],
     suggestSongs: [],
-    suggestSongsNodes: [
-      
-    ],
+    suggestSongsNodes: [],
     resultSongs: [],
     searchValue: ""
   },
@@ -38,8 +36,10 @@ Page({
   handleSearchChange: function(event) {
     // 1. 获取输入的关键字
     const searchValue = event.detail;
+
     // 2. 保存关键字
     this.setData({ searchValue });
+
     // 3. 判断关键字为空字符的处理逻辑
     if(!searchValue.length){
       this.setData({ suggestSongs: [], resultSongs: []  });
@@ -54,6 +54,7 @@ Page({
       //   console.log("searchValue没有值");
       //   return;
       // }
+
       // 1. 获取建议的关键字歌曲
       const suggestSongs = res.result.allMatch;
       this.setData({ suggestSongs });
@@ -69,7 +70,9 @@ Page({
       this.setData({ suggestSongsNodes });
     })
   },
-  handleSearchAction: function() {
+  handleSearchAction: function () {
+    // 保存一下searchValue
+
     const searchValue = this.data.searchValue;
     getSearchResult(searchValue).then(res => {
       this.setData({ resultSongs: res.result.songs })

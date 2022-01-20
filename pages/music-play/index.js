@@ -111,6 +111,16 @@ Page({
     playerStore.dispatch("changeMusicPlayStatusAction", !this.data.isPlaying);
   },
 
+  // 监听上一首按钮
+  handlePrevBtnClick: function() {
+
+  },
+
+  // 监听下一首按钮
+  handleNextBtnClick: function() {
+
+  },
+
   // -------------------------- [ 数据监听 ] --------------------------
   setupPlayerStoreListener: function() {
     // 1. 监听currentSong/durationTime/lyricInfos

@@ -58,7 +58,7 @@
 </view>
 
 <!-- 6. 播放工具栏 -->
-<view class="play-bar">
+<view class="play-bar" wx:if="{{currentSong.id}}">
   <view class="left">
     <image class="album album-anim" 
             style="animation-play-state: {{playAnimState}};"

@@ -18,13 +18,17 @@ Page({
     hotSongMenu: [],
     recommendSongs: [],
     recommendSongMenu: [],
-    rankings: { 0: {}, 2: {}, 3: {} }
+    rankings: { 0: {}, 2: {}, 3: {} },
+
+    currentSong: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    playerStore.dispatch("playMusicWithSongIdAction", { id: 1842025914 })
+
     // 获取页面数据
     this.getPageData();
 
@@ -32,14 +36,7 @@ Page({
     rankingStore.dispatch("getRankingDataAction");
 
     // 从store获取共享的数据
-    rankingStore.onState("hotRanking", (res) => {
-      if(!res.tracks) return;
-      const recommendSongs = res.tracks.slice(0, 6);
-      this.setData({ recommendSongs })
-    })
-    rankingStore.onState("newRanking", this.gerRankingHandler(0));
-    rankingStore.onState("originRanking", this.gerRankingHandler(2));
-    rankingStore.onState("upRanking", this.gerRankingHandler(3));
+    this.setupPlayerStoreListener();
   },
 
   // 网络请求
@@ -92,7 +89,6 @@ Page({
   // 监听首页推荐歌曲的索引点击
   handleSongItemClick: function(event) {
     const index = event.currentTarget.dataset.index;
-    console.log(index, this.data.recommendSongs);
     playerStore.setState("playListSongs", this.data.recommendSongs);
     playerStore.setState("playListIndex", index);
   },
@@ -103,6 +99,23 @@ Page({
   onUnload: function () {
     // 在销毁的时候取消监听，首页是可以不用取消的
     // rankingStore.offState("newRanking", this.getNewRankingHandle);
+  },
+
+  setupPlayerStoreListener: function() {
+    // 1. 排行榜监听
+    rankingStore.onState("hotRanking", (res) => {
+      if(!res.tracks) return;
+      const recommendSongs = res.tracks.slice(0, 6);
+      this.setData({ recommendSongs })
+    })
+    rankingStore.onState("newRanking", this.gerRankingHandler(0));
+    rankingStore.onState("originRanking", this.gerRankingHandler(2));
+    rankingStore.onState("upRanking", this.gerRankingHandler(3));
+
+    // 2. 播放器监听
+    playerStore.onStates(["currentSong"], ({currentSong}) => {
+      if(currentSong) this.setData({  currentSong });
+    })
   },
 
   gerRankingHandler: function(idx) {
@@ -119,17 +132,4 @@ Page({
       })
     }
   }
-
-  // gerNewRankingHandler: function(res) {
-  //   if(Object.keys(res).length === 0) return;
-  //   const name = res.name;
-  //   const coverImgUrl = res.coverImgUrl;
-  //   const songList = res.tracks.slice(0, 3);
-  //   const rankingObj = {name, coverImgUrl, songList};
-  //   const originRankings = [...this.data.rankings];
-  //   originRankings.push(rankingObj);
-  //   this.setData({ 
-  //     rankings: originRankings
-  //   })
-  // }
 })

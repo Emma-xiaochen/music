@@ -17,3 +17,48 @@ page {
 .swiper-item .swiper-image {
   width: 100%;
 }
+
+/* 播放工具栏 */
+.play-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 88rpx;
+  bottom: 0;
+  box-shadow: 0 -2rpx 10px rgba(0, 0, 0, .1);
+  background: #fafafa;
+  padding: 0 8px;
+}
+
+.play-bar .left,
+.play-bar .right {
+  display: flex;
+  align-items: center;
+}
+
+.play-bar .left .album {
+  position: relative;
+  top: -16rpx;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+}
+
+.play-bar .left .name {
+  font-size: 28rpx;
+  margin-left: 10rpx;
+}
+
+.play-bar .right .icon {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.play-bar .right .play {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 10rpx;
+}

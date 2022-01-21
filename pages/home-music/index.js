@@ -20,7 +20,9 @@ Page({
     recommendSongMenu: [],
     rankings: { 0: {}, 2: {}, 3: {} },
 
-    currentSong: {}
+    currentSong: {},
+    isPlaying: false,
+    playAnimState: "pause"
   },
 
   /**
@@ -93,12 +95,18 @@ Page({
     playerStore.setState("playListIndex", index);
   },
 
+  // 监听首页播放按钮的点击
+  handlePlayBtnClick: function() {
+    playerStore.dispatch("changeMusicPlayStatusAction", !this.data.isPlaying);
+  },
+
   /**
    * 生命周期函数--监听页面卸载
    */
+  // 卸载页面
   onUnload: function () {
     // 在销毁的时候取消监听，首页是可以不用取消的
-    // rankingStore.offState("newRanking", this.getNewRankingHandle);
+    rankingStore.offState("newRanking", this.getNewRankingHandle);
   },
 
   setupPlayerStoreListener: function() {
@@ -113,8 +121,14 @@ Page({
     rankingStore.onState("upRanking", this.gerRankingHandler(3));
 
     // 2. 播放器监听
-    playerStore.onStates(["currentSong"], ({currentSong}) => {
+    playerStore.onStates(["currentSong", "isPlaying"], ({currentSong, isPlaying}) => {
       if(currentSong) this.setData({  currentSong });
+      if (isPlaying !== undefined) {
+        this.setData({
+          isPlaying,
+          playAnimState: isPlaying ? "running" : "paused"
+        });
+      }
     })
   },
 

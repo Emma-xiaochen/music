@@ -29,7 +29,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // playerStore.dispatch("playMusicWithSongIdAction", { id: 1842025914 })
+    playerStore.dispatch("playMusicWithSongIdAction", { id: 1842025914 })
 
     // 获取页面数据
     this.getPageData();
@@ -59,7 +59,7 @@ Page({
   // 事件处理
   handleSearchClick: function() {
     wx.navigateTo({
-      url: '/pages/detail-search/index',
+      url: '/pages/detail-search/index'
     })
   },
 
@@ -96,8 +96,17 @@ Page({
   },
 
   // 监听首页播放按钮的点击
-  handlePlayBtnClick: function() {
+  handlePlayBtnClick: function(event) {
     playerStore.dispatch("changeMusicPlayStatusAction", !this.data.isPlaying);
+    // Propagation 繁殖
+    // event.stopPropagation();
+  },
+
+  // 监听播放工具栏点击跳转详情播放页
+  handlePlayBarClick: function() {
+    wx.navigateTo({
+      url: `/pages/music-play/index?id=${this.data.currentSong.id}`,
+    })
   },
 
   /**

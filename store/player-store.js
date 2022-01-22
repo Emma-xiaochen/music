@@ -8,6 +8,7 @@ const audioContext = wx.getBackgroundAudioManager(); // audioContext
 const playerStore = new cmEventStore({
   state: {
     isFirstPlay: true, // 是否是第一次播放
+    isStopping: false, // 是否停止状态
 
     id: 0, // 当前歌曲的id
     currentSong: {}, // 当前歌曲
@@ -108,11 +109,34 @@ const playerStore = new cmEventStore({
       audioContext.onEnded(() => {
         this.dispatch("changeNewMusicAction");
       })
+
+      // 4. 监听音乐暂停/播放/停止
+      // 播放状态
+      audioContext.onPlay(() => {
+        ctx.isPlaying = true;
+      })
+      // 暂停状态
+      audioContext.onPause(() => {
+        ctx.isPlaying = false;
+      })
+      // 停止状态
+      audioContext.onStop(() => {
+        ctx.isPlaying = false;
+        ctx.isStopping = true;
+      })
     },    
 
     changeMusicPlayStatusAction(ctx, isPlaying = true) {
       ctx.isPlaying = isPlaying;
+      if(ctx.isPlaying && ctx.isStopping) {
+        audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`;
+        audioContext.title = currentSong.name;
+      }
       ctx.isPlaying ? audioContext.play() : audioContext.pause();
+      if(ctx.isStopping) {
+        audioContext.seek(ctx.currentTime);
+        ctx.isStopping = false;
+      }
     },
 
     changeNewMusicAction(ctx, isNext = true) {

@@ -1,4 +1,4 @@
-import cmLoginRequest from './index';
+import { cmLoginRequest } from './index';
 
 export function getLoginCode() {
   return new Promise((resolve, reject) => {
@@ -17,6 +17,25 @@ export function getLoginCode() {
   })
 }
 
-export function codeToken(code) {
+export function codeToToken(code) {
   return cmLoginRequest.post("/login", { code });
+}
+
+export function checkToken(token) {
+  return cmLoginRequest.post("/auth", {}, {
+    token
+  })
+}
+
+export function checkSession() {
+  return new Promise((resolve) => {
+    wx.checkSession({
+      success: () => {
+        resolve(true)
+      },
+      fail: () => {
+        resolve(false);
+      }
+    })
+  })
 }

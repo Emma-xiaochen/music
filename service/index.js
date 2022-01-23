@@ -1,10 +1,16 @@
-const BASE_URL = "http://123.207.32.32:9001"
+const BASE_URL = "http://123.207.32.32:9001";
+
+const LOGIN_BASE_URL = "http://123.207.32.32:3000";
 
 class CMRequest {
+  constructor(baseURL) {
+    this.baseURL = baseURL;
+  }
+  
   request(url, method, params) {
     return new Promise((resolve, reject) => {
       wx.request({
-        url: BASE_URL + url,
+        url: this.baseURL + url,
         method: method,
         data: params, 
         success: (res) => {
@@ -26,6 +32,11 @@ class CMRequest {
   }
 }
 
-const cmRequest = new CMRequest();
+const cmRequest = new CMRequest(BASE_URL);
 
-export default cmRequest
+const cmLoginRequest = new CMRequest(LOGIN_BASE_URL);
+
+export default cmRequest;
+export{
+  cmLoginRequest
+};

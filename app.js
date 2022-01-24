@@ -28,7 +28,7 @@ App({
     //  2. 让用户默认进行登录
     const token = wx.getStorageSync(TOKEN_KEY);
     // 验证token有没有过期
-    const checkResult = await checkToken(token);
+    const checkResult = await checkToken();
     console.log(checkResult);
     // 判断session是否过期
     const isSessionExpire = await checkSession();

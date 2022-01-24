@@ -21,10 +21,12 @@ export function codeToToken(code) {
   return cmLoginRequest.post("/login", { code });
 }
 
-export function checkToken(token) {
-  return cmLoginRequest.post("/auth", {}, {
-    token
-  })
+export function checkToken() {
+  return cmLoginRequest.post("/auth", {}, true);
+}
+
+export function postFavorRequest(id) {
+  return cmLoginRequest.post("/auth", { id }, true);
 }
 
 export function checkSession() {
@@ -37,5 +39,5 @@ export function checkSession() {
         resolve(false);
       }
     })
-  })
+  });
 }

@@ -29,7 +29,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    playerStore.dispatch("playMusicWithSongIdAction", { id: 1842025914 })
+    // playerStore.dispatch("playMusicWithSongIdAction", { id: 1842025914 })
 
     // 获取页面数据
     this.getPageData();

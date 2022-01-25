@@ -16,7 +16,7 @@ class CMRequest {
   }
   
   request(url, method, params, isAuth = false, header = {}) {
-    const finalHeader = isAuth ? { ...this.authHeader, header } : header;
+    const finalHeader = isAuth ? { ...this.authHeader, ...header } : header;
 
     return new Promise((resolve, reject) => {
       wx.request({

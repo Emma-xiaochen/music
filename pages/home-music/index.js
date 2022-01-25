@@ -59,7 +59,7 @@ Page({
   // 事件处理
   handleSearchClick: function() {
     wx.navigateTo({
-      url: '/pages/detail-search/index'
+      url: '/packageDetail/pages/detail-search/index'
     })
   },
 
@@ -84,7 +84,7 @@ Page({
 
   navigateToDetailSongsPage: function(rankingName) {
     wx.navigateTo({
-      url: `/pages/detail-songs/index?ranking=${rankingName}&type=rank`
+      url: `/packageDetail/pages/detail-songs/index?ranking=${rankingName}&type=rank`
     })
   },
 
@@ -105,7 +105,7 @@ Page({
   // 监听播放工具栏点击跳转详情播放页
   handlePlayBarClick: function() {
     wx.navigateTo({
-      url: `/pages/music-play/index?id=${this.data.currentSong.id}`,
+      url: `/packagePlayer/pages/music-play/index?id=${this.data.currentSong.id}`,
     })
   },
 

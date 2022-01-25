@@ -41,3 +41,18 @@ export function checkSession() {
     })
   });
 }
+
+export function getUserInfo() {
+  return  new Promise((resolve, reject) => {
+    // 获得用户的信息
+    wx.getUserProfile({
+      desc: '你好啊，李银河',
+      success: (res) => {
+        resolve(res);
+      },
+      fail: (err) => {
+        reject(err)
+      }
+    })
+  })
+}

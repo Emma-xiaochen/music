@@ -26,6 +26,10 @@ App({
     this.globalData.deviceRadio = deviceRadio;
 
     //  2. 让用户默认进行登录
+    this.handleLogin();
+  },
+
+  handleLogin: async function () {
     const token = wx.getStorageSync(TOKEN_KEY);
     // 验证token有没有过期
     const checkResult = await checkToken();
@@ -37,6 +41,7 @@ App({
       this.loginAction();
     }
   },
+
   loginAction: async function() {
     // 1.获取code
     const code = await getLoginCode();

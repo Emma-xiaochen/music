@@ -2,12 +2,25 @@
   "pages": [
     "pages/home-music/index",
     "pages/home-video/index",
-    "pages/detail-video/index",
-    "pages/detail-search/index",
-    "components/area-header/index",
-    "pages/detail-songs/index",
-    "pages/music-play/index",
     "pages/home-profile/index"
+  ],
+  "subPackages": [
+    {
+      "root": "packageDetail",
+      "name": "pDetail",
+      "pages": [
+        "pages/detail-search/index",
+        "pages/detail-songs/index",
+        "pages/detail-video/index"
+      ]
+    },
+    {
+      "root": "packagePlayer",
+      "name": "pPlayer",
+      "pages": [
+        "pages/music-play/index"
+      ]
+    }
   ],
   "window": {
     "backgroundTextStyle": "light",

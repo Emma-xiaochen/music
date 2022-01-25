@@ -11,7 +11,11 @@ Page({
   },
 
   handleGetUser: async function(event) {
-    const userInfo = await getUserInfo();
-    console.log(userInfo);
+    const userInfo = await getUserInfo()
+    console.log(userInfo)
+  },
+  
+  handleGetPhoneNumber: function(event) {
+    console.log(event)
   }
 })
